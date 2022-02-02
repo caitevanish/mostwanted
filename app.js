@@ -19,6 +19,7 @@ function app(people){
       console.log(searchResults) //Showed Array Contents
       break;
     case 'no':
+      searchResults = searchByHeight(people);
       searchResults = searchByWeight(people);
       searchResults = searchByEyeColor(people); // TODO: search by traits
       searchResults = searchByGender(people);
@@ -147,10 +148,29 @@ function searchByWeight(people){
   return foundPerson;
 }
 
-
-
-
 //trait #4 : 
+
+function searchByHeight(people){
+  let height = promptFor("What is the persons approx height max: 80 min: 60",autoValid);
+  height = parseInt(height);
+  let foundPerson = people.filter(function(potentialMatch){
+    if(potentialMatch.height >= 60 && potentialMatch.height <= 65){
+      // console.log("People in Small Height group", foundPerson);
+      return true;
+    }
+    else if(potentialMatch.height >= 66 && potentialMatch.height <= 72){
+      return true;
+    }
+    else if(potentialMatch.height >= 73 && potentialMatch.height <=80){
+      return true;
+    }
+    else{
+      return false;
+    }
+  })
+  displayPeople(foundPerson);
+  return foundPerson;
+}
 
 
 
