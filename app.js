@@ -20,7 +20,7 @@ function app(people){
       break;
     case 'no':
       searchResults = searchByEyeColor(people); // TODO: search by traits
-      console.log(searchResults)
+      searchResults = searchByGender(people);
       break;
       default:
     app(people); // restart app
@@ -99,8 +99,24 @@ function searchByEyeColor(people){
       return false;
     }
   })
-  let foundPeople = foundPerson[""];
-  return foundPeople
+  displayPeople(foundPerson);
+  return foundPerson;
+}
+
+// Trait #2
+
+function searchByGender(people){
+  let gender = promptFor("What is the person's Gender?", autoValid);
+  let foundPerson = people.filter(function(potentialMatch){
+    if(potentialMatch.gender === gender){
+      return true;
+    }
+    else{
+      return false;
+    }
+  })
+  displayPeople(foundPerson);
+  return foundPerson
 }
 
 //TODO: add other trait filter functions here.
