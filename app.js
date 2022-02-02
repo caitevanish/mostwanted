@@ -2,12 +2,10 @@
 
 
 
-
-
 //Menu functions.
 //Used for the overall flow of the application.
 /////////////////////////////////////////////////////////////////
-//#region 
+//#Menu region 
 
 // app is the function called to start the entire application
 function app(people){
@@ -19,6 +17,7 @@ function app(people){
       console.log(searchResults) //Showed Array Contents
       break;
     case 'no':
+      searchResults = searchByGenderEyeColor(people);  
       searchResults = searchByHeight(people);
       searchResults = searchByWeight(people);
       searchResults = searchByEyeColor(people); // TODO: search by traits
@@ -88,6 +87,31 @@ function searchByName(people){
   foundPerson = foundPerson[0]; //----Completed User story #1
   return foundPerson;
 }
+
+//-------- Search Traits #1: Gender/eye --------//
+
+function searchByGenderEyeColor(people){
+  let userInput = promptFor("Do you want to search by gender and eye color?", autoValid);
+  let genderResults;
+  let searchResults;
+ 
+  switch(userInput){
+    case "yes":
+      genderResults = searchByGender(people);
+      searchResults = searchByEyeColor(genderResults);
+      break;
+     case "no":
+       break;
+       default:
+     app(people); // restart app
+       break;
+  }
+  //If there's one choice, return to main menu with name. //searchResults = searchResults[0]
+  //Else: multiple people, user chooses by index number, or by search "name" filter.
+  //results returned to mainmenu
+  mainMenu(searchResults, people);
+ }
+
 
 //unfinished function to search through an array of people to find matching eye colors. Use searchByName as reference.
 function searchByEyeColor(people){
@@ -183,7 +207,10 @@ function searchByHeight(people){
 
 
 
-//#endregion
+
+ 
+
+//#endregions
 
 //Display functions.
 //Functions for user interface.
