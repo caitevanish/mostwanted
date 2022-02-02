@@ -1,6 +1,8 @@
 "use strict"
 
-import data from data.js
+
+
+
 
 //Menu functions.
 //Used for the overall flow of the application.
@@ -14,6 +16,7 @@ function app(people){
   switch(searchType){
     case 'yes':
       searchResults = searchByName(people);
+      //console.log(searchResults) //Showed Array Contents
       break;
     case 'no':
       // TODO: search by traits
@@ -22,7 +25,6 @@ function app(people){
     app(people); // restart app
       break;
   }
-  
   // Call the mainMenu function ONLY after you find the SINGLE person you are looking for
   mainMenu(searchResults, people);
 }
@@ -31,12 +33,12 @@ function app(people){
 function mainMenu(person, people){
 
   /* Here we pass in the entire person object that we found in our search, as well as the entire original dataset of people. We need people in order to find descendants and other information that the user may want. */
-
+  
   if(!person){
     alert("Could not find that individual.");
     return app(people); // restart
   }
-
+  
   let displayOption = promptFor("Found " + person.firstName + " " + person.lastName + " . Do you want to know their 'info', 'family', or 'descendants'? Type the option you want or 'restart' or 'quit'", autoValid);
 
   switch(displayOption){
@@ -80,6 +82,7 @@ function searchByName(people){
     }
   })
   // TODO: find the person single person object using the name they entered.
+  foundPerson = foundPerson[0];
   return foundPerson;
 }
 
