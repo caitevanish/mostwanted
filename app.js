@@ -19,6 +19,7 @@ function app(people){
       console.log(searchResults) //Showed Array Contents
       break;
     case 'no':
+      searchResults = searchByWeight(people);
       searchResults = searchByEyeColor(people); // TODO: search by traits
       searchResults = searchByGender(people);
       break;
@@ -103,7 +104,7 @@ function searchByEyeColor(people){
   return foundPerson;
 }
 
-// Trait #2
+// Trait #2: Gender
 
 function searchByGender(people){
   let gender = promptFor("What is the person's Gender?", autoValid);
@@ -118,6 +119,45 @@ function searchByGender(people){
   displayPeople(foundPerson);
   return foundPerson
 }
+
+
+
+//trait #3 : Weight
+//Note for Caitlin: practice how to test weights, ie. (a,b) => b.weight - a.weight
+
+function searchByWeight(people){
+  let weight = promptFor("What is the person's approximate weight", autoValid);
+  weight = parseInt(weight);
+  
+  let foundPerson = people.filter(function(potentialMatch){
+    if(potentialMatch.weight >= 100  && potentialMatch.weight < 150){ // 100 -150
+    return true;
+    }
+    else if(potentialMatch.weight >= 150  && potentialMatch.weight < 200){
+    return true;
+    }
+    else if(potentialMatch.weight >= 200  && potentialMatch.weight < 300){
+    return true;
+    }
+    else{
+    return false;  
+    }
+  })
+  displayPeople(foundPerson);
+  return foundPerson;
+}
+
+
+
+
+//trait #4 : 
+
+
+
+
+//trait #5 : 
+
+
 
 //TODO: add other trait filter functions here.
 
