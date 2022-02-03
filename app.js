@@ -9,7 +9,7 @@
 
 // app is the function called to start the entire application
 function app(people){
-  let searchType = promptFor("Do you know the name of the person you are looking for? Enter 'yes' or 'no'", yesNo).toLowerCase();
+  let searchType = promptFor("Do you know the name of the person you are looking for?\nEnter 'yes' or 'no'", yesNo).toLowerCase();
   let searchResults;
   switch(searchType){
     case 'yes':
@@ -19,6 +19,7 @@ function app(people){
     case 'no':
       searchByTrait(people);
       // searchResults = searchByGenderEyeColor(people);  
+      // searchResults = searchByGenderAndWeight(people);
       // searchResults = searchByHeight(people);
       // searchResults = searchByWeight(people);
       // searchResults = searchByEyeColor(people); // TODO: search by traits
@@ -35,7 +36,7 @@ function app(people){
 // Menu function to call once you find who you are looking for
 
 function searchByTrait(people){
-  let searchType = promptFor("Press 1 to search by Gender and Eye color, Press 2 to search by Gender and Weight, Press 3 to search by Height and Weight", autoValid);
+  let searchType = promptFor("Press [1] to search by Gender and Eye color\nPress [2] to search by Gender and Weight\nPress [3] to search by Height and Weight", autoValid);
   let searchResults;
   switch(searchType){
     case '1':
@@ -43,10 +44,10 @@ function searchByTrait(people){
       console.log(searchResults);
       break;
     case '2':
-      searchResults = '';
+      searchResults = searchByGenderAndWeight(people);
       break;
     case '3':
-      searchResults = '';
+      searchResults = searchByHeightAndWeight(people);
       break;
       default:
     app(people); // restart app
@@ -64,7 +65,7 @@ function mainMenu(person, people){
     return app(people); // restart
   }
   
-  let displayOption = promptFor("Found " + person.firstName + " " + person.lastName + " . Do you want to know their 'info', 'family', or 'descendants'? Type the option you want or 'restart' or 'quit'", autoValid);
+  let displayOption = promptFor("Found " + person.firstName + " " + person.lastName + " .\nDo you want to know their 'info', 'family', or 'descendants'?\nType the option you want or 'restart' or 'quit'", autoValid);
 
   switch(displayOption){
     case "info":
@@ -111,7 +112,11 @@ function searchByName(people){
   return foundPerson;
 }
 
+
+
 //-------- Search Traits #1: Gender/eye --------//
+
+
 
 function searchByGenderEyeColor(people){
   let genderResults = searchByGender(people);
@@ -125,16 +130,44 @@ function searchByGenderEyeColor(people){
     return results;
   }
   else{
+    multipleResultSelection(searchResults);
     // create function to select name if multiple return
   }
   mainMenu(results, people);
  }
 
 
-function SearchByGenderAndWeight(people){
-    let userInput = promptFor()
+
+
+function searchByGenderAndWeight(people){
+    let genderResults = searchByGender(people);
+    let searchResults = searchByWeight(genderResults);
+    let results;
+    if(searchResults.length == 1){
+      results = searchResults[0];
+      return results;
+    }
+    else{
+
+    }
+    mainMenu(results, people);
   }
 
+function searchByHeightAndWeight(people){
+  let heightResults = searchByHeight(people);
+  let searchResults = searchByWeight(heightResults);
+  let results;
+  if(searchResults.length == 1){
+    results = searchResults[0];
+    return results;
+  }
+  else{
+
+  }
+  mainMenu(results, people);
+}
+
+  
 //unfinished function to search through an array of people to find matching eye colors. Use searchByName as reference.
 function searchByEyeColor(people){
   let eyeColor = promptFor("What is the person's eye color?", autoValid);
@@ -177,13 +210,7 @@ function searchByWeight(people){
   weight = parseInt(weight);
   
   let foundPerson = people.filter(function(potentialMatch){
-    if(potentialMatch.weight >= 100  && potentialMatch.weight < 150){ // 100 -150
-    return true;
-    }
-    else if(potentialMatch.weight >= 150  && potentialMatch.weight < 200){
-    return true;
-    }
-    else if(potentialMatch.weight >= 200  && potentialMatch.weight < 300){
+    if(potentialMatch.weight >= weight - 20 && potentialMatch.weight <= weight + 20){ // 100 -150
     return true;
     }
     else{
@@ -200,14 +227,8 @@ function searchByHeight(people){
   let height = promptFor("What is the persons approx height max: 80 min: 60",autoValid);
   height = parseInt(height);
   let foundPerson = people.filter(function(potentialMatch){
-    if(potentialMatch.height >= 60 && potentialMatch.height <= 65){
+    if(potentialMatch.height >= height - 2 && potentialMatch.height <= height + 2){
       // console.log("People in Small Height group", foundPerson);
-      return true;
-    }
-    else if(potentialMatch.height >= 66 && potentialMatch.height <= 72){
-      return true;
-    }
-    else if(potentialMatch.height >= 73 && potentialMatch.height <=80){
       return true;
     }
     else{
@@ -239,6 +260,18 @@ function searchByHeight(people){
 /////////////////////////////////////////////////////////////////
 //#region 
 
+function multipleResultSelection(searchResults){
+  displayPeopleWithPrompt(searchResults);
+  let userInput = promptFor('Type the first name of the person you want to select', autoValid); // ${displayPeople(searchResults)}
+  result = userInput
+  console.log(result);
+}
+function displayPeopleWithPrompt(people){
+  prompt(people.map(function(person){
+    return person.firstName + " " + person.lastName;
+  }).join("\n"));
+}
+
 // alerts a list of people
 function displayPeople(people){
   alert(people.map(function(person){
@@ -258,6 +291,7 @@ function displayPerson(person){
 //#endregion
 
 
+// let result = promptFor("Are you happy?", yesNo)
 
 //Validation functions.
 //Functions to validate user input.
