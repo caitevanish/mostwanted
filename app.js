@@ -7,7 +7,9 @@
 /////////////////////////////////////////////////////////////////
 //#Menu region 
 
+//-------- Switch Case #1: App Function/Start --------//
 // app is the function called to start the entire application
+
 function app(people){
   let searchType = promptFor("Do you know the name of the person you are looking for?\nEnter 'yes' or 'no'", yesNo).toLowerCase();
   let searchResults;
@@ -16,15 +18,11 @@ function app(people){
       searchResults = searchByName(people);
       console.log(searchResults) //Showed Array Contents
       break;
+
     case 'no':
       searchByTrait(people);
-      // searchResults = searchByGenderEyeColor(people);  
-      // searchResults = searchByGenderAndWeight(people);
-      // searchResults = searchByHeight(people);
-      // searchResults = searchByWeight(people);
-      // searchResults = searchByEyeColor(people); // TODO: search by traits
-      // searchResults = searchByGender(people);
       break;
+
       default:
     app(people); // restart app
       break;
@@ -32,7 +30,9 @@ function app(people){
   mainMenu(searchResults, people); // Call mainMenu function ONLY after finding the SINGLE person you're looking for
 }
 
-// Menu function to call once you find who you are looking for
+
+//-------- Switch Case #2: App Function --------//
+
 
 function searchByTrait(people){
   let searchType = promptFor("Press [1] to search by Gender and Eye color\nPress [2] to search by Gender and Weight\nPress [3] to search by Height and Weight", autoValid);
@@ -54,32 +54,34 @@ function searchByTrait(people){
   mainMenu(searchResults, people);
 }
 
-function mainMenu(person, people){
+//-------- Switch Case #3: Main Menu --------//
 
-  /* Here we pass in the entire person object that we found in our search, as well as the entire original dataset of people. We need people in order to find descendants and other information that the user may want. */
-  
+// Menu function to call once you find who you are looking for
+
+/* Here we pass in the entire person object that we found in our search, as well as the entire original dataset of people. We need people in order to find descendants and other information that the user may want. */
+
+function mainMenu(person, people){
   if(!person){
     alert("Could not find that individual.");
     return app(people); // restart
   }
   
   let displayOption = promptFor("Found " + person.firstName + " " + person.lastName + " .\nDo you want to know their 'info', 'family', or 'descendants'?\nType the option you want or 'restart' or 'quit'", autoValid);
-
-  switch(displayOption){
-    // TODO: get person's info
-    case "info": 
-      searchResults = displayInfo(person);
-      break;
-    // person = alert("Name:    " + person.firstName + " " + person.lastName + "\nGender:    "+ person.gender + "\nDate of Birth:    " + person.dob + "\nHeight:    " + person.height + "\nWeight:    " + person.weight + "\nEye Color:    " + person.eyeColor + "\nOccupation:    " + person.occupation);
-    
-    break; //Note to Caitlin: FIgure out how to left align the answers
   
-    case "family":
-    // TODO: get person's family
+  switch(displayOption){
+    case "info": // TODO: get person's info
+      displayResults = displayInfo(person);
+      break;
+      // person = alert("Name:    " + person.firstName + " " + person.lastName + "\nGender:    "+ person.gender + "\nDate of Birth:    " + person.dob + "\nHeight:    " + person.height + "\nWeight:    " + person.weight + "\nEye Color:    " + person.eyeColor + "\nOccupation:    " + person.occupation);
+  
+    case "family":  // TODO: get person's family
+      displayResults = displayFamily(person);
     break;
-    case "descendants":
-    // TODO: get person's descendants
+
+    case "descendants":  // TODO: get person's descendants
+      displayResults = displayDescendents(person);
     break;
+
     case "restart":
     app(people); // restart
     break;
@@ -90,26 +92,20 @@ function mainMenu(person, people){
   }
 }
 
-function displayInfo(person){
-  let infoAlert;
-  infoAlert = alert("Name:    " + person.firstName + " " + person.lastName + 
-  "\nGender:    "+ person.gender + 
-  "\nDate of Birth:    " + person.dob + 
-  "\nHeight:    " + person.height + 
-  "\nWeight:    " + person.weight + 
-  "\nEye Color:    " + person.eyeColor + 
-  "\nOccupation:    " + person.occupation);
-  return;
-} 
 
 //#endregion
+
+
+
 
 //Filter functions.
 //Ideally you will have a function for each trait.
 /////////////////////////////////////////////////////////////////
-//#region 
-
 //nearly finished function used to search through an array of people to find matching first and last name and return a SINGLE person object.
+//#filterRegion 
+
+//-------- Search Traits #0: Name --------//
+
 function searchByName(people){
   let firstName = promptFor("What is the person's first name?", autoValid);
   let lastName = promptFor("What is the person's last name?", autoValid);
@@ -128,9 +124,7 @@ function searchByName(people){
 }
 
 
-
 //-------- Search Traits #1: Gender/eye --------//
-
 
 
 function searchByGenderEyeColor(people){
@@ -152,6 +146,7 @@ function searchByGenderEyeColor(people){
  }
 
 
+//-------- Search Traits #2: Gender/Weight --------//
 
 
 function searchByGenderAndWeight(people){
@@ -167,6 +162,9 @@ function searchByGenderAndWeight(people){
     }
     mainMenu(results, people);
   }
+  
+//-------- Search Traits #2: Height/Weight --------//
+
 
 function searchByHeightAndWeight(people){
   let heightResults = searchByHeight(people);
@@ -183,7 +181,10 @@ function searchByHeightAndWeight(people){
 }
 
   
-//unfinished function to search through an array of people to find matching eye colors. Use searchByName as reference.
+//-------- Search by Single Traits--------//
+
+// Trait #1: Eye Color
+
 function searchByEyeColor(people){
   let eyeColor = promptFor("What is the person's eye color?", autoValid);
 
@@ -215,9 +216,7 @@ function searchByGender(people){
   return foundPerson
 }
 
-
-
-//trait #3 : Weight
+// Trait #3: Weight
 //Note for Caitlin: practice how to test weights, ie. (a,b) => b.weight - a.weight
 
 function searchByWeight(people){
@@ -236,7 +235,7 @@ function searchByWeight(people){
   return foundPerson;
 }
 
-//trait #4 : 
+// Trait #3: Height
 
 function searchByHeight(people){
   let height = promptFor("What is the persons approx height max: 80 min: 60",autoValid);
@@ -254,27 +253,53 @@ function searchByHeight(people){
   return foundPerson;
 }
 
+//#endFilterRegions
 
 
-
-//trait #5 : 
-
-
-
-//TODO: add other trait filter functions here.
-
-
-
-
- 
-
-//#endregions
 
 //Display functions.
 //Functions for user interface.
 /////////////////////////////////////////////////////////////////
-//#region 
+//#displayRegion 
 
+
+// Display #1: Info
+//Note to Caitlin: Figure out how to left align the answers
+
+function displayInfo(person){
+  let infoAlert;
+  infoAlert = alert("Name:    " + person.firstName + " " + person.lastName + 
+  "\nGender:    "+ person.gender + 
+  "\nDate of Birth:    " + person.dob + 
+  "\nHeight:    " + person.height + 
+  "\nWeight:    " + person.weight + 
+  "\nEye Color:    " + person.eyeColor + 
+  "\nOccupation:    " + person.occupation);
+  return;
+} 
+
+// Display #2: Family
+
+function displayFamily(person){
+  break;
+}
+
+// Display #3: Descendents
+
+function displayDescendents(person){
+  break;
+}
+
+
+//#endDisplayRegion 
+
+
+//Window Prompts and Alerts.
+//User interface.
+/////////////////////////////////////////////////////////////////
+//#displayRegion 
+
+// PROMPTS a list of people
 function multipleResultSelection(searchResults){
   let userInput = displayPeopleWithPrompt(searchResults);
   let foundPerson = searchPersonByFirstName(userInput);
@@ -287,12 +312,13 @@ function displayPeopleWithPrompt(people){
   return results;
 }
 
-// alerts a list of people
+// ALERTS a list of people
 function displayPeople(people){
   alert(people.map(function(person){
     return person.firstName + " " + person.lastName;
   }).join("\n"));
 }
+
 function searchPersonByFirstName(person){
     let firstName = person;
     let personInfo = data.filter(function(potentialMatch){
@@ -314,11 +340,9 @@ function displayPerson(person){
   // TODO: finish getting the rest of the information to display.
   alert(personInfo);
 }
-
 //#endregion
 
 
-// let result = promptFor("Are you happy?", yesNo)
 
 //Validation functions.
 //Functions to validate user input.
@@ -329,6 +353,7 @@ function displayPerson(person){
 //response: Will capture the user input.
 //isValid: Will capture the return of the validation function callback. true(the user input is valid)/false(the user input was not valid).
 //this function will continue to loop until the user enters something that is not an empty string("") or is considered valid based off the callback function(valid).
+
 function promptFor(question, valid){
   let isValid;
   do{
@@ -337,6 +362,7 @@ function promptFor(question, valid){
   } while(response === ""  ||  isValid === false)
   return response;
 }
+
 
 // helper function/callback to pass into promptFor to validate yes/no answers.
 function yesNo(input){
@@ -348,16 +374,18 @@ function yesNo(input){
   }
 }
 
+
 // helper function to pass in as default promptFor validation.
 //this will always return true for all inputs.
 function autoValid(input){
   return true; // default validation only
 }
 
+
 //Unfinished validation function you can use for any of your custom validation callbacks.
 //can be used for things like eye color validation for example.
 function customValidation(input){
-  
+
 }
 
 //#endregion
