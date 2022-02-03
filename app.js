@@ -40,7 +40,6 @@ function searchByTrait(people){
   switch(searchType){
     case '1':
       searchResults = searchByGenderEyeColor(people);
-      console.log(searchResults);
       break;
     case '2':
       searchResults = searchByGenderAndWeight(people);
@@ -129,7 +128,7 @@ function searchByGenderEyeColor(people){
     return results;
   }
   else{
-    multipleResultSelection(searchResults);
+    results = multipleResultSelection(searchResults);
     // create function to select name if multiple return
   }
   mainMenu(results, people);
@@ -147,7 +146,7 @@ function searchByGenderAndWeight(people){
       return results;
     }
     else{
-
+      results = multipleResultSelection(searchResults);
     }
     mainMenu(results, people);
   }
@@ -161,7 +160,7 @@ function searchByHeightAndWeight(people){
     return results;
   }
   else{
-
+    results = multipleResultSelection(searchResults);
   }
   mainMenu(results, people);
 }
@@ -205,7 +204,7 @@ function searchByGender(people){
 //Note for Caitlin: practice how to test weights, ie. (a,b) => b.weight - a.weight
 
 function searchByWeight(people){
-  let weight = promptFor("What is the person's approximate weight", autoValid);
+  let weight = promptFor("What is the person's approximate weight max: 300 | min: 80", autoValid);
   weight = parseInt(weight);
   
   let foundPerson = people.filter(function(potentialMatch){
@@ -261,22 +260,14 @@ function searchByHeight(people){
 
 function multipleResultSelection(searchResults){
   let userInput = displayPeopleWithPrompt(searchResults);
-  // let selectedName = prompt('Type the first name of the person you want to select', userInput, autoValid)
-  let selectedName = prompt('Type the first name of the person you want to select', userInput, autoValid, userInput.map(function(person){
-    return person.firstName + " " + person.lastName;
-  }).join("\n"));
-  return selectedName;
-
-  
-  // let userInput = promptFor('Type the first name of the person you want to select', autoValid); // ${displayPeople(searchResults)}
-  result = userInput
-  console.log(result);
+  let foundPerson = searchPersonByFirstName(userInput);
+  return foundPerson;
 }
-
 function displayPeopleWithPrompt(people){
-  promptFor(people.map(function(person){
+  let results = prompt(people.map(function(person){
     return person.firstName + " " + person.lastName;
-  }).join("\n"));
+  }).join("\n"),'Enter first name here');
+  return results;
 }
 
 // alerts a list of people
@@ -284,6 +275,18 @@ function displayPeople(people){
   alert(people.map(function(person){
     return person.firstName + " " + person.lastName;
   }).join("\n"));
+}
+function searchPersonByFirstName(person){
+    let firstName = person;
+    let personInfo = data.filter(function(potentialMatch){
+      if(potentialMatch.firstName === firstName){
+        return true;
+      }
+      else{
+        return false;
+  }})
+    personInfo = personInfo[0];
+    return personInfo;
 }
 
 function displayPerson(person){
