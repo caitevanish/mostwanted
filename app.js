@@ -17,11 +17,12 @@ function app(people){
       console.log(searchResults) //Showed Array Contents
       break;
     case 'no':
-      searchResults = searchByGenderEyeColor(people);  
-      searchResults = searchByHeight(people);
-      searchResults = searchByWeight(people);
-      searchResults = searchByEyeColor(people); // TODO: search by traits
-      searchResults = searchByGender(people);
+      searchByTrait(people);
+      // searchResults = searchByGenderEyeColor(people);  
+      // searchResults = searchByHeight(people);
+      // searchResults = searchByWeight(people);
+      // searchResults = searchByEyeColor(people); // TODO: search by traits
+      // searchResults = searchByGender(people);
       break;
       default:
     app(people); // restart app
@@ -32,6 +33,28 @@ function app(people){
 }
 
 // Menu function to call once you find who you are looking for
+
+function searchByTrait(people){
+  let searchType = promptFor("Press 1 to search by Gender and Eye color, Press 2 to search by Gender and Weight, Press 3 to search by Height and Weight", autoValid);
+  let searchResults;
+  switch(searchType){
+    case '1':
+      searchResults = searchByGenderEyeColor(people);
+      console.log(searchResults);
+      break;
+    case '2':
+      searchResults = '';
+      break;
+    case '3':
+      searchResults = '';
+      break;
+      default:
+    app(people); // restart app
+      break;
+  }
+  mainMenu(searchResults, people);
+}
+
 function mainMenu(person, people){
 
   /* Here we pass in the entire person object that we found in our search, as well as the entire original dataset of people. We need people in order to find descendants and other information that the user may want. */
@@ -91,27 +114,26 @@ function searchByName(people){
 //-------- Search Traits #1: Gender/eye --------//
 
 function searchByGenderEyeColor(people){
-  let userInput = promptFor("Do you want to search by gender and eye color?", autoValid);
-  let genderResults;
-  let searchResults;
- 
-  switch(userInput){
-    case "yes":
-      genderResults = searchByGender(people);
-      searchResults = searchByEyeColor(genderResults);
-      break;
-     case "no":
-       break;
-       default:
-     app(people); // restart app
-       break;
-  }
+  let genderResults = searchByGender(people);
+  let searchResults = searchByEyeColor(genderResults);
   //If there's one choice, return to main menu with name. //searchResults = searchResults[0]
   //Else: multiple people, user chooses by index number, or by search "name" filter.
   //results returned to mainmenu
-  mainMenu(searchResults, people);
+  let results;
+  if(searchResults.length == 1){
+    results = searchResults[0];
+    return results;
+  }
+  else{
+    // create function to select name if multiple return
+  }
+  mainMenu(results, people);
  }
 
+
+function SearchByGenderAndWeight(people){
+    let userInput = promptFor()
+  }
 
 //unfinished function to search through an array of people to find matching eye colors. Use searchByName as reference.
 function searchByEyeColor(people){
