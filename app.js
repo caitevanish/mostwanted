@@ -66,9 +66,14 @@ function mainMenu(person, people){
   let displayOption = promptFor("Found " + person.firstName + " " + person.lastName + " .\nDo you want to know their 'info', 'family', or 'descendants'?\nType the option you want or 'restart' or 'quit'", autoValid);
 
   switch(displayOption){
-    case "info":
     // TODO: get person's info
-    break;
+    case "info": 
+      searchResults = displayInfo(person);
+      break;
+    // person = alert("Name:    " + person.firstName + " " + person.lastName + "\nGender:    "+ person.gender + "\nDate of Birth:    " + person.dob + "\nHeight:    " + person.height + "\nWeight:    " + person.weight + "\nEye Color:    " + person.eyeColor + "\nOccupation:    " + person.occupation);
+    
+    break; //Note to Caitlin: FIgure out how to left align the answers
+  
     case "family":
     // TODO: get person's family
     break;
@@ -84,6 +89,18 @@ function mainMenu(person, people){
     return mainMenu(person, people); // ask again
   }
 }
+
+function displayInfo(person){
+  let infoAlert;
+  infoAlert = alert("Name:    " + person.firstName + " " + person.lastName + 
+  "\nGender:    "+ person.gender + 
+  "\nDate of Birth:    " + person.dob + 
+  "\nHeight:    " + person.height + 
+  "\nWeight:    " + person.weight + 
+  "\nEye Color:    " + person.eyeColor + 
+  "\nOccupation:    " + person.occupation);
+  return;
+} 
 
 //#endregion
 
