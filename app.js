@@ -29,8 +29,7 @@ function app(people){
     app(people); // restart app
       break;
   }
-  // Call the mainMenu function ONLY after you find the SINGLE person you are looking for
-  mainMenu(searchResults, people);
+  mainMenu(searchResults, people); // Call mainMenu function ONLY after finding the SINGLE person you're looking for
 }
 
 // Menu function to call once you find who you are looking for
@@ -261,13 +260,21 @@ function searchByHeight(people){
 //#region 
 
 function multipleResultSelection(searchResults){
-  displayPeopleWithPrompt(searchResults);
-  let userInput = promptFor('Type the first name of the person you want to select', autoValid); // ${displayPeople(searchResults)}
+  let userInput = displayPeopleWithPrompt(searchResults);
+  // let selectedName = prompt('Type the first name of the person you want to select', userInput, autoValid)
+  let selectedName = prompt('Type the first name of the person you want to select', userInput, autoValid, userInput.map(function(person){
+    return person.firstName + " " + person.lastName;
+  }).join("\n"));
+  return selectedName;
+
+  
+  // let userInput = promptFor('Type the first name of the person you want to select', autoValid); // ${displayPeople(searchResults)}
   result = userInput
   console.log(result);
 }
+
 function displayPeopleWithPrompt(people){
-  prompt(people.map(function(person){
+  promptFor(people.map(function(person){
     return person.firstName + " " + person.lastName;
   }).join("\n"));
 }
