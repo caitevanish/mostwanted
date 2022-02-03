@@ -70,8 +70,8 @@ function mainMenu(person, people){
   
   switch(displayOption){
     case "info": // TODO: get person's info
-      displayResults = displayInfo(person);
-      break;
+    displayInfo(person);
+    break;
       // person = alert("Name:    " + person.firstName + " " + person.lastName + "\nGender:    "+ person.gender + "\nDate of Birth:    " + person.dob + "\nHeight:    " + person.height + "\nWeight:    " + person.weight + "\nEye Color:    " + person.eyeColor + "\nOccupation:    " + person.occupation);
   
     case "family":  // TODO: get person's family
@@ -281,13 +281,13 @@ function displayInfo(person){
 // Display #2: Family
 
 function displayFamily(person){
-  break;
+  
 }
 
 // Display #3: Descendents
 
 function displayDescendents(person){
-  break;
+  
 }
 
 
