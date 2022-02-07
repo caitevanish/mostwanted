@@ -36,9 +36,9 @@ function displayFamily(person){
   }
   
   function displayParents(person){
-    let personParents;
-    personParents = data.filter(function(parents){
-      if(parents.parents === person.parents){
+    if(parents.length != 0){
+    let personParents = data.filter(function(el){
+      if(el.parents.includes(person.parents[0])){
         return true;
       }
       else{
@@ -46,4 +46,8 @@ function displayFamily(person){
       }
     })
     return personParents;
+  }
+    else{
+      return [];
+    }
   }
