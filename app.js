@@ -35,7 +35,7 @@ function app(people){
 
 
 function searchByTrait(people){
-  let searchType = promptFor("Press [1] to search by Gender and Eye color\nPress [2] to search by Gender and Weight\nPress [3] to search by Height and Weight", autoValid);
+  let searchType = promptFor("Press [1] to search by Gender and Eye color\nPress [2] to search by Gender and Weight\nPress [3] to search by Height and Weight", numberValid);
   let searchResults;
   switch(searchType){
     case '1':
@@ -70,16 +70,15 @@ function mainMenu(person, people){
   
   switch(displayOption){
     case "info": // TODO: get person's info
-    displayInfo(person);
-    break;
-      // person = alert("Name:    " + person.firstName + " " + person.lastName + "\nGender:    "+ person.gender + "\nDate of Birth:    " + person.dob + "\nHeight:    " + person.height + "\nWeight:    " + person.weight + "\nEye Color:    " + person.eyeColor + "\nOccupation:    " + person.occupation);
-  
+      displayInfo(person);
+      mainMenu(person, people);
+    break;  
     case "family":  // TODO: get person's family
-      displayFamily(person);
+      displayAllFamily(person, people);
+      mainMenu(person, people);
     break;
-
     case "descendants":  // TODO: get person's descendants
-      displayResults = displayDescendents(person);
+      displayDescendents(person, people);
     break;
 
     case "restart":
@@ -107,8 +106,8 @@ function mainMenu(person, people){
 //-------- Search Traits #0: Name --------//
 
 function searchByName(people){
-  let firstName = promptFor("What is the person's first name?", autoValid);
-  let lastName = promptFor("What is the person's last name?", autoValid);
+  let firstName = promptFor("What is the person's first name?", textValid);
+  let lastName = promptFor("What is the person's last name?", textValid);
 
   let foundPerson = people.filter(function(potentialMatch){
     if(potentialMatch.firstName === firstName && potentialMatch.lastName === lastName){
@@ -186,7 +185,7 @@ function searchByHeightAndWeight(people){
 // Trait #1: Eye Color
 
 function searchByEyeColor(people){
-  let eyeColor = promptFor("What is the person's eye color?", autoValid);
+  let eyeColor = promptFor("What is the person's eye color?", textValid);
 
   let foundPerson = people.filter(function(potentialMatch){
     if(potentialMatch.eyeColor === eyeColor){
@@ -203,7 +202,7 @@ function searchByEyeColor(people){
 // Trait #2: Gender
 
 function searchByGender(people){
-  let gender = promptFor("What is the person's Gender?", autoValid);
+  let gender = promptFor("What is the person's Gender?", genderValid);
   let foundPerson = people.filter(function(potentialMatch){
     if(potentialMatch.gender === gender){
       return true;
@@ -280,86 +279,43 @@ function displayInfo(person){
 
 // Display #2: Family
 
-function displayFamily(person){
-  displaySpouse(person);
-  displayParents(person);
-  displaySiblings(person);
-  
+function displayAllFamily(selectedPerson, people){
+  let familyMembers = people.filter(function(person){
+    if(selectedPerson.currentSpouse == person.id){
+      return true; //returning spouse
+    }
+    else if(selectedPerson.parents.includes(person.id)){
+      return true; //returning parents
+    }
+    else if(person.parents.includes(selectedPerson.id)){
+      return true; //returning children
+    }
+    else if(findSiblings(person, selectedPerson)){
+      
+      return true; //returning siblings
+    } 
+    //look at both parent ids, nesting
+  });
+  displayPeople(familyMembers)
   return;
 }
 
-function displaySpouse(person){
-  let personSpouse;
-  personSpouse = data.filter(function(spouse){
-    if(spouse.currentSpouse === person.id){
-      return true;
-    }
-    else{
-      return false;
-    }
-  })
-  personSpouse = personSpouse[0];
-  alert(person.firstName +" "+ person.lastName + "\n Spouse: " + spouse.firstName + ' ' + spouse.lastName + "\n" + siblings.firstName);
-  return personSpouse;
+function findSiblings(person, selectedPerson){
+  //determine if selectedperson and person are same
+  //if they are the same, skip over them
+  //if not the same, compare parent ids
+    let sameParents = selectedPerson.parents.filter(function(parentId){
+    if(person.parents.includes(parentId))
+    return true;
+  });
+  return sameParents.length != 0;
 }
-
-
-function displayParents(person){
-  if(parents.length != 0){
-  let personParents = data.filter(function(el){
-    if(el.parents.includes(person.parents[0])){
-      return true;
-    }
-    else{
-      return false;
-    }
-  })
-  parentsList = [];
-  for(let i=0; i<personParents.length; i++){
-    parentsList.push(personParents[i])
-  }
-
-  alert(person.firstName + person.lastName+ "'s Parents:\n" + parentsList.firstName + " " + parentsList.lastName);
-  return;
-}
-  else{
-    return [];
-  }
-}
-
-let personInfo = "First Name: " + person.firstName + "\n";
-personInfo += "Last Name: " + person.lastName + "\n";
-// TODO: finish getting the rest of the information to display.
-alert(personInfo);
-
-
-
-
-function displaySiblings(person){
-  let list = []
-  let personSiblings;
-  personSiblings = data.filter(function(siblings){
-    if(siblings.parents === person.parents){
-      return true;
-    }
-    else{
-      return false;
-    }
-  })
-  // displayPeopleList(personSiblings);
-  list.push(personSiblings.firstName);
-  return list;
-}
-
-
-
-
-
 
 // Display #3: Descendents
 
-function displayDescendents(person){
-  
+function displayDescendents(person, people){
+  let decendents = person.parents.includes(selectedPerson.id)
+    return true; 
 }
 
 
@@ -446,6 +402,32 @@ function yesNo(input){
   }
 }
 
+function textValid(input){ // add .toLowerCase()
+  if(input.length >= 1){
+    return true;
+  }
+  else{
+    return false;
+  }
+}
+
+function genderValid(input){
+  if(input.toLowerCase() == "male" || input.toLowerCase() == "female"){
+    return true;
+  }
+  else{
+    return false;
+  }
+}
+
+function numberValid(input){
+  if(input == "1" || input == "2" || input == "3"){
+    return true;
+  }
+  else{
+    return false;
+  }
+}
 
 // helper function to pass in as default promptFor validation.
 //this will always return true for all inputs.

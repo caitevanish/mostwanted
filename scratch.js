@@ -37,69 +37,100 @@ function findSiblings(person, selectedPerson){
 }
 
 
-function displaySpouse(person, people){
-  // let personSpouse;
-  // if(currentSpouse == null){ // problem here
-  //   return false;
-  // }
-  // else 
-  if(person.currentSpouse != null){
-  let personSpouse = people.filter(function(spouse){
-    if(spouse.currentSpouse === person.id){
-      return true;
-    }
-    else{
-      return false;
-    }
-  })
-  personSpouse = personSpouse[0];
-  alert(person.firstName +" "+ person.lastName + "\n Spouse: " + spouse.firstName + ' ' + spouse.lastName + "\n" + siblings.firstName);
-  return personSpouse;
-}
-  else{
-    return;
-  }
-}
+// function displaySpouse(person, people){
+//   // let personSpouse;
+//   // if(currentSpouse == null){ // problem here
+//   //   return false;
+//   // }
+//   // else 
+//   if(person.currentSpouse != null){
+//   let personSpouse = people.filter(function(spouse){
+//     if(spouse.currentSpouse === person.id){
+//       return true;
+//     }
+//     else{
+//       return false;
+//     }
+//   })
+//   personSpouse = personSpouse[0];
+//   alert(person.firstName +" "+ person.lastName + "\n Spouse: " + spouse.firstName + ' ' + spouse.lastName + "\n" + siblings.firstName);
+//   return personSpouse;
+// }
+//   else{
+//     return;
+//   }
+// }
 
 
-function displayParents(person){
-  if(parents.length != 0){
-  let personParents = data.filter(function(el){
-    if(el.parents.includes(person.parents[0])){
-      return true;
-    }
-    else{
-      return false;
-    }
-  })// where to put the for loop and how to get it setup in alert
-  parentsList = [];
-  for(let i=0; i<personParents.length; i++){ 
-    parentsList.push(personParents[i])
-  }
+// function displayParents(person){
+//   if(parents.length != 0){
+//   let personParents = data.filter(function(el){
+//     if(el.parents.includes(person.parents[0])){
+//       return true;
+//     }
+//     else{
+//       return false;
+//     }
+//   })// where to put the for loop and how to get it setup in alert
+//   parentsList = [];
+//   for(let i=0; i<personParents.length; i++){ 
+//     parentsList.push(personParents[i])
+//   }
 
-  alert(person.firstName + person.lastName+ "'s Parents:\n" + parentsList.firstName + " " + parentsList.lastName);
-  return;
-}
-  else{
-    return [];
-  }
-}
+//   alert(person.firstName + person.lastName+ "'s Parents:\n" + parentsList.firstName + " " + parentsList.lastName);
+//   return;
+// }
+//   else{
+//     return [];
+//   }
+// }
 
 
-  function displaySiblings(person){
-    let list = []
-    let personSiblings;
-    personSiblings = data.filter(function(siblings){
-      if(siblings.parents === person.parents){
-        return true;
-      }
-      else{
-        return false;
-      }
-    })
-    // displayPeopleList(personSiblings);
-    list.push(personSiblings.firstName);
-    return list;
-  }
+//   function displaySiblings(person){
+//     let list = []
+//     let personSiblings;
+//     personSiblings = data.filter(function(siblings){
+//       if(siblings.parents === person.parents){
+//         return true;
+//       }
+//       else{
+//         return false;
+//       }
+//     })
+//     // displayPeopleList(personSiblings);
+//     list.push(personSiblings.firstName);
+//     return list;
+//   }
   
   
+//////////////////////////////////////////////////////////
+//               Validation 
+
+
+
+function textValid(input){ // add .toLowerCase()
+  if(input.length >= 1){
+    return true;
+  }
+  else{
+    return false;
+  }
+}
+
+function genderValid(input){
+  if(input.toLowerCase() == "male" || input.toLowerCase() == "female"){
+    return true;
+  }
+  else{
+    return false;
+  }
+}
+
+function numberValid(input){
+  if(input == "1" || input == "2" || input == "3"){
+    return true;
+  }
+  else{
+    return false;
+  }
+}
