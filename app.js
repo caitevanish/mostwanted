@@ -75,7 +75,7 @@ function mainMenu(person, people){
       // person = alert("Name:    " + person.firstName + " " + person.lastName + "\nGender:    "+ person.gender + "\nDate of Birth:    " + person.dob + "\nHeight:    " + person.height + "\nWeight:    " + person.weight + "\nEye Color:    " + person.eyeColor + "\nOccupation:    " + person.occupation);
   
     case "family":  // TODO: get person's family
-      displayResults = displayFamily(person);
+      displayFamily(person);
     break;
 
     case "descendants":  // TODO: get person's descendants
@@ -281,7 +281,15 @@ function displayInfo(person){
 // Display #2: Family
 
 function displayFamily(person){
-  
+  let familyMembers;
+  familyMembers = data.filter(function(family){
+    if(family.lastName === person.lastName){
+      return true;
+    }
+    else{
+      return false;
+    }})
+    displayPeople(familyMembers);
 }
 
 // Display #3: Descendents
