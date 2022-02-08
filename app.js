@@ -129,9 +129,6 @@ function searchByName(people){
 function searchByGenderEyeColor(people){
   let genderResults = searchByGender(people);
   let searchResults = searchByEyeColor(genderResults);
-  //If there's one choice, return to main menu with name. //searchResults = searchResults[0]
-  //Else: multiple people, user chooses by index number, or by search "name" filter.
-  //results returned to mainmenu
   let results;
   if(searchResults.length == 1){
     results = searchResults[0];
@@ -255,7 +252,6 @@ function searchByHeight(people){
 //#endFilterRegions
 
 
-
 //Display functions.
 //Functions for user interface.
 /////////////////////////////////////////////////////////////////
@@ -266,8 +262,7 @@ function searchByHeight(people){
 //Note to Caitlin: Figure out how to left align the answers
 
 function displayInfo(person){
-  let infoAlert;
-  infoAlert = alert("Name:    " + person.firstName + " " + person.lastName + 
+  alert("Name:    " + person.firstName + " " + person.lastName + 
   "\nGender:    "+ person.gender + 
   "\nDate of Birth:    " + person.dob + 
   "\nHeight:    " + person.height + 
@@ -280,27 +275,67 @@ function displayInfo(person){
 // Display #2: Family
 
 function displayAllFamily(selectedPerson, people){
-  let familyMembers = people.filter(function(person){
-    if(selectedPerson.currentSpouse == person.id){
-      return true; //returning spouse
-    }
-    else if(selectedPerson.parents.includes(person.id)){
-      return true; //returning parents
-    }
-    else if(person.parents.includes(selectedPerson.id)){
-      return true; //returning children
-    }
-    else if(findSiblings(person, selectedPerson)){
-      
-      return true; //returning siblings
-    } 
-    //look at both parent ids, nesting
-  });
-  displayPeople(familyMembers)
-  return;
+  displaySpouse(selectedPerson, people);
+  displayParents(selectedPerson, people);
+  displaySiblings(selectedPerson, people);
 }
 
-function findSiblings(person, selectedPerson){
+
+function displaySpouse(selectedPerson, people){ 
+  if(selectedPerson.currentSpouse != null){
+  let personSpouse = people.filter(function(spouse){
+    if(spouse.currentSpouse === selectedPerson.id){
+      return true;
+    }
+    else{
+      return false;
+    }
+  })
+  personSpouse = personSpouse[0];
+  
+  alert(selectedPerson.firstName + " "+ selectedPerson.lastName + "'s Spouse:\n " + personSpouse.firstName + ' ' + personSpouse.lastName);
+}
+  else{
+    alert(selectedPerson.firstName + " " + selectedPerson.lastName + " does not have a spouse.");
+  }
+}
+
+function displayParents(selectedPerson, people){
+  if(selectedPerson.parents.length != 0){
+    let personParent = people.filter(function(parent){
+      if(selectedPerson.parents.includes(parent.id)){
+        return true;
+      }
+      else{
+        return false;
+      }
+    })
+    listParents(selectedPerson,personParent)
+    }
+    else{
+      alert(selectedPerson.firstName + " " + selectedPerson.lastName + "does not have any parents.")
+    }
+  }
+
+function displaySiblings(selectedPerson, people){
+  //iterate over each person in people
+  let siblings = people.filter(function(person){
+    if(areSiblings(person, selectedPerson))
+      return true;
+    else {
+      return false;
+    }
+  })
+  displayPeople(siblings, `${selectedPerson.firstName} ${selectedPerson.lastName}'s Siblings:\n` )
+  
+  // else{
+  //   alert(selectedPerson.firstName + " " + selectedPerson.lastName + "does not have any siblings.")
+  // }
+}
+
+
+
+function areSiblings(person, selectedPerson){
   //determine if selectedperson and person are same
   //if they are the same, skip over them
   //if not the same, compare parent ids
@@ -341,9 +376,16 @@ function displayPeopleWithPrompt(people){
 }
 
 // ALERTS a list of people
-function displayPeople(people){
-  alert(people.map(function(person){
+function displayPeople(people, heading=''){
+  alert(heading + people.map(function(person){
     return person.firstName + " " + person.lastName;
+  }).join("\n"));
+}
+
+function listParents(person, personParents){
+  alert(person.firstName + " " + person.lastName + "'s Parents:\n" +
+  personParents.map(function(parent){
+    return  parent.firstName + " " + parent.lastName;
   }).join("\n"));
 }
 
