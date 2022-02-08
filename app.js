@@ -78,7 +78,7 @@ function mainMenu(person, people){
       mainMenu(person, people);
     break;
     case "descendants":  // TODO: get person's descendants
-      displayDescendents(person, people);
+      displayDescendants(person, people);
     break;
 
     case "restart":
@@ -348,8 +348,8 @@ function areSiblings(person, selectedPerson){
 
 // Display #3: Descendents
 
-function displayDescendents(person, people){
-  let decendents = person.parents.includes(selectedPerson.id)
+function displayDescendants(person, people){
+  let decendants = person.parents.includes(selectedPerson.id)
     return true; 
 }
 
