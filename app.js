@@ -79,7 +79,6 @@ function mainMenu(person, people){
     break;
     case "descendants":  // TODO: get person's descendants
       displayDescendants(person, people);
-      mainMenu(person, people);
     break;
 
     case "restart":
@@ -349,15 +348,9 @@ function areSiblings(person, selectedPerson){
 
 // Display #3: Descendents
 
-
 function displayDescendants(person, people){
-  // first we would want to see if the person selected has any parents
-  // next if the person selected has parents create a function to see if they have any parents 
-  // if they do we would display that list of people
-  let parents = displayParents(person, people);
-  let parentsParents = displayParents(parents, people);
-  alert(parents, parentsParents);
-
+  let decendants = person.parents.includes(selectedPerson.id)
+    return true; 
 }
 
 
